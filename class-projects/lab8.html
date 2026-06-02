@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab8</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script>
+        var app=angular.module("myApp",[]);
+        app.controller("myCntrl", function($scope){
+            $scope.username=""
+            $scope.password=""
+            $scope.noattempts=0
+            $scope.login=function(){
+                if($scope.username=="Haric" && $scope.password=="12345678"){
+                alert("Login successful")
+            }
+            else{
+                $scope.noattempts++
+                if($scope.noattempts<=3){
+                    alert("Incorrect username/password! Attempt no."+$scope.noattempts)
+                }
+                else{
+                    document.getElementById("loginbutton").disabled=true
+                }
+            }
+
+            }
+        });
+    </script>
+    <style>
+        .error-message{
+            color:red;
+            font-size:20px;
+        }
+    </style>
+</head>
+<body ng-app="myApp">
+    <h1>Angular JS Login Form</h1>
+    <form name="loginform" ng-submit="submitform()">
+        <div ng-controller="myCntrl">
+        Enter username: <input type="text" name="uname" ng-model="username"  ng-minlength="5" ng-maxlength="10" required/>
+        <span class="error-message" ng-show="loginform.username.$error.required && loginform.username.$dirty">Username is required</span>
+        <span class="error-message" ng-show="loginform.username.$error.minlength">Minimum length must be 5</span>
+        <span class="error-message" ng-show="loginform.username.$error.maxlength">Maximum length is limited to 10</span>
+        <br><br>
+        Enter password: <input type="password" ng-model="password" name="password" ng-minlength="5" ng-maxlength="10" required/>
+        <span class="error-message" ng-show="loginform.password.$error.required && loginform.password.$dirty">Password is required</span>
+        <span class="error-message" ng-show="loginform.password.$error.minlength">Minimum length must be 5</span>
+        <span class="error-message" ng-show="loginform.password.$error.maxlength">Maximum length is limited to 8</span>
+        <br><br>
+        <button type="submit" ng-disabled="login.$invalid" ng-click="login()" id="loginbutton">Login</button>
+    <!-- <label> Username: </label>
+    <input type="text" id="username" name="username" placeholder="Enter username"/><br><br>
+    <label>Password: </label>
+    <input type="password" id="password" name="password" placeholder="Enter password"/><br><br>
+    <input type="submit" id="submit" name="submit"> -->
+</div>
+</form>
+</body>
+</html>
